@@ -1,7 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
-IMGVERSION=0.1.0
+IMGVERSION=0.1.5
 
 all: test manager
 
@@ -31,6 +31,7 @@ manifests:
 	kustomize build config/default/ > provider-components.yaml
 	echo "---" >> provider-components.yaml
 	kustomize build vendor/sigs.k8s.io/cluster-api/config/default/ >> provider-components.yaml
+	sed -i 's/cluster-api-provider-helloworld-controller-manager-metrics-service/cluster-api-provider-hw-controller-manager-metrics-service/g' provider-components.yaml
 
 # Run go fmt against code
 fmt:
@@ -56,3 +57,7 @@ docker-build: test
 # Push the docker image
 docker-push:
 	docker push ${IMG}:${IMGVERSION}
+
+# Build and push docker image
+magic:
+	bash ./magic.sh

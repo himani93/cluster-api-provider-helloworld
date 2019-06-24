@@ -8,10 +8,12 @@ COPY cmd/    cmd/
 COPY vendor/ vendor/
 
 # Build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o manager sigs.k8s.io/cluster-api-provider-helloworld/cmd/manager
+RUN apt-get update && apt-get install -y libvirt-dev
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -a -o manager sigs.k8s.io/cluster-api-provider-helloworld/cmd/manager
 
 # Copy the controller-manager into a thin image
 FROM ubuntu:latest
 WORKDIR /
 COPY --from=builder /go/src/sigs.k8s.io/cluster-api-provider-helloworld/manager .
+RUN apt-get update && apt-get install -y libvirt-dev
 ENTRYPOINT ["/manager"]
