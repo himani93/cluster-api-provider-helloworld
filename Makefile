@@ -1,6 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
+IMGVERSION=0.1.0
 
 all: test manager
 
@@ -22,12 +23,14 @@ install: manifests
 
 # Deploy controller in the configured Kubernetes cluster in ~/.kube/config
 deploy: manifests
-	kubectl apply -f config/crds
-	kustomize build config/default | kubectl apply -f -
+	cat provider-components.yaml | kubectl apply -f -
 
 # Generate manifests e.g. CRD, RBAC etc.
 manifests:
 	go run vendor/sigs.k8s.io/controller-tools/cmd/controller-gen/main.go all
+	kustomize build config/default/ > provider-components.yaml
+	echo "---" >> provider-components.yaml
+	kustomize build vendor/sigs.k8s.io/cluster-api/config/default/ >> provider-components.yaml
 
 # Run go fmt against code
 fmt:
@@ -46,10 +49,10 @@ endif
 
 # Build the docker image
 docker-build: test
-	docker build . -t ${IMG}
+	docker build . -t ${IMG}:${IMGVERSION}
 	@echo "updating kustomize image patch file for manager resource"
 	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
-	docker push ${IMG}
+	docker push ${IMG}:${IMGVERSION}

@@ -388,7 +388,7 @@
 
 [[projects]]
   name = "sigs.k8s.io/cluster-api"
-  packages = ["pkg/apis/cluster/common","pkg/apis/cluster/v1alpha1"]
+  packages = ["pkg/apis","pkg/apis/cluster/common","pkg/apis/cluster/v1alpha1","pkg/controller/error","pkg/controller/machine","pkg/util"]
   revision = "5ed76e24e0319770757c25fdb07669d89b778fd8"
   version = "0.1.3"
 
@@ -419,6 +419,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "1085dcd0b572acab597f3d3549d9065bf0a00622d313159e402494545ad83b72"
+  inputs-digest = "9edc67277aa4c79584d213748cefd4a0939728ded1549d6eaf21580e048798a4"
   solver-name = "gps-cdcl"
   solver-version = 1
