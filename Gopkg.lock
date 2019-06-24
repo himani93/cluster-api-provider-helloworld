@@ -346,14 +346,14 @@
 
 [[projects]]
   name = "k8s.io/apiextensions-apiserver"
-  packages = ["pkg/apis/apiextensions","pkg/apis/apiextensions/v1beta1"]
+  packages = ["pkg/apis/apiextensions","pkg/apis/apiextensions/v1beta1","pkg/client/clientset/clientset","pkg/client/clientset/clientset/scheme","pkg/client/clientset/clientset/typed/apiextensions/v1beta1"]
   revision = "d002e88f6236312f0289d9d1deab106751718ff0"
   version = "kubernetes-1.13.4"
 
 [[projects]]
   branch = "release-1.13"
   name = "k8s.io/apimachinery"
-  packages = ["pkg/api/errors","pkg/api/meta","pkg/api/resource","pkg/apis/meta/internalversion","pkg/apis/meta/v1","pkg/apis/meta/v1/unstructured","pkg/apis/meta/v1beta1","pkg/conversion","pkg/conversion/queryparams","pkg/fields","pkg/labels","pkg/runtime","pkg/runtime/schema","pkg/runtime/serializer","pkg/runtime/serializer/json","pkg/runtime/serializer/protobuf","pkg/runtime/serializer/recognizer","pkg/runtime/serializer/streaming","pkg/runtime/serializer/versioning","pkg/selection","pkg/types","pkg/util/cache","pkg/util/clock","pkg/util/diff","pkg/util/errors","pkg/util/framer","pkg/util/intstr","pkg/util/json","pkg/util/mergepatch","pkg/util/naming","pkg/util/net","pkg/util/runtime","pkg/util/sets","pkg/util/strategicpatch","pkg/util/uuid","pkg/util/validation","pkg/util/validation/field","pkg/util/wait","pkg/util/yaml","pkg/version","pkg/watch","third_party/forked/golang/json","third_party/forked/golang/reflect"]
+  packages = ["pkg/api/errors","pkg/api/meta","pkg/api/resource","pkg/apis/meta/internalversion","pkg/apis/meta/v1","pkg/apis/meta/v1/unstructured","pkg/apis/meta/v1/validation","pkg/apis/meta/v1beta1","pkg/conversion","pkg/conversion/queryparams","pkg/fields","pkg/labels","pkg/runtime","pkg/runtime/schema","pkg/runtime/serializer","pkg/runtime/serializer/json","pkg/runtime/serializer/protobuf","pkg/runtime/serializer/recognizer","pkg/runtime/serializer/streaming","pkg/runtime/serializer/versioning","pkg/selection","pkg/types","pkg/util/cache","pkg/util/clock","pkg/util/diff","pkg/util/errors","pkg/util/framer","pkg/util/intstr","pkg/util/json","pkg/util/mergepatch","pkg/util/naming","pkg/util/net","pkg/util/runtime","pkg/util/sets","pkg/util/strategicpatch","pkg/util/uuid","pkg/util/validation","pkg/util/validation/field","pkg/util/wait","pkg/util/yaml","pkg/version","pkg/watch","third_party/forked/golang/json","third_party/forked/golang/reflect"]
   revision = "86fb29eff6288413d76bd8506874fddd9fccdff0"
 
 [[projects]]
@@ -387,8 +387,14 @@
   revision = "db7b694dc208eead64d38030265f702db593fcf2"
 
 [[projects]]
+  name = "sigs.k8s.io/cluster-api"
+  packages = ["pkg/apis/cluster/common","pkg/apis/cluster/v1alpha1"]
+  revision = "5ed76e24e0319770757c25fdb07669d89b778fd8"
+  version = "0.1.3"
+
+[[projects]]
   name = "sigs.k8s.io/controller-runtime"
-  packages = ["pkg/cache","pkg/cache/internal","pkg/client","pkg/client/apiutil","pkg/client/config","pkg/controller","pkg/event","pkg/handler","pkg/internal/controller","pkg/internal/controller/metrics","pkg/internal/objectutil","pkg/internal/recorder","pkg/leaderelection","pkg/manager","pkg/metrics","pkg/patch","pkg/predicate","pkg/reconcile","pkg/recorder","pkg/runtime/inject","pkg/runtime/log","pkg/runtime/signals","pkg/source","pkg/source/internal","pkg/webhook/admission","pkg/webhook/admission/types","pkg/webhook/internal/metrics","pkg/webhook/types"]
+  packages = ["pkg/cache","pkg/cache/internal","pkg/client","pkg/client/apiutil","pkg/client/config","pkg/controller","pkg/envtest","pkg/envtest/printer","pkg/event","pkg/handler","pkg/internal/controller","pkg/internal/controller/metrics","pkg/internal/objectutil","pkg/internal/recorder","pkg/leaderelection","pkg/manager","pkg/metrics","pkg/patch","pkg/predicate","pkg/reconcile","pkg/recorder","pkg/runtime/inject","pkg/runtime/log","pkg/runtime/scheme","pkg/runtime/signals","pkg/source","pkg/source/internal","pkg/webhook/admission","pkg/webhook/admission/types","pkg/webhook/internal/metrics","pkg/webhook/types"]
   revision = "f1eaba5087d69cebb154c6a48193e6667f5b512c"
   version = "v0.1.12"
 
@@ -413,6 +419,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ad79e9ede90770ef92bf4b522417eb2087c16b05fe5bdf5f83f12c1371bfe17f"
+  inputs-digest = "1085dcd0b572acab597f3d3549d9065bf0a00622d313159e402494545ad83b72"
   solver-name = "gps-cdcl"
   solver-version = 1
