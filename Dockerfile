@@ -15,5 +15,6 @@ RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -a -o manager sigs.k8s.io/clu
 FROM ubuntu:latest
 WORKDIR /
 COPY --from=builder /go/src/sigs.k8s.io/cluster-api-provider-helloworld/manager .
-RUN apt-get update && apt-get install -y libvirt-dev
+RUN apt-get update && apt-get install -y libvirt-dev \
+	net-tools
 ENTRYPOINT ["/manager"]

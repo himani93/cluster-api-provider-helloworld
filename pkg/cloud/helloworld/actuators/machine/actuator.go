@@ -121,7 +121,7 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 	}
 	fmt.Printf("XML: %s", xmldoc)
 
-	conn, err := libvirt.NewConnect("qemu:///system")
+	conn, err := libvirt.NewConnect("qemu+tcp://192.168.99.1:16509/system")
 	if err != nil {
 		panic(err)
 	}
@@ -141,7 +141,7 @@ func (a *Actuator) Update(ctx context.Context, cluster *clusterv1.Cluster, machi
 }
 
 func (a *Actuator) Exists(ctx context.Context, cluster *clusterv1.Cluster, machine *clusterv1.Machine) (bool, error) {
-	panic("not implemented")
+	return false, nil
 }
 
 func (a *Actuator) GetIP(cluster *clusterv1.Cluster, machine *clusterv1.Machine) (string, error) {

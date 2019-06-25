@@ -1,7 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
-IMGVERSION=0.1.5
+IMGVERSION=0.1.8
 
 all: test manager
 
