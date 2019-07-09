@@ -11,4 +11,5 @@ spec:
         name: Joanna
         vcpu: 2
         memoryInGB: 2
-        image: /home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm3/base.qcow2
+        imageURI: /home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm3/base.qcow2
+        userDataURI: /home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm3/user-data.img

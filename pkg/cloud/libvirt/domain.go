@@ -1,15 +1,14 @@
 package libvirt
 
 import (
-	"fmt"
 	"log"
 
 	libvirt "github.com/libvirt/libvirt-go"
 	libvirtxml "github.com/libvirt/libvirt-go-xml"
 )
 
-func CreateDomain(name string, vcpu int, memory_in_gb uint, image_uri string) {
-	domainDef, err := defineDomain(name, vcpu, memory_in_gb, image_uri)
+func CreateDomain(name string, vcpu int, memory_in_gb uint, image_uri string, user_data_uri string) {
+	domainDef, err := defineDomain(name, vcpu, memory_in_gb, image_uri, user_data_uri)
 	if err != nil {
 		panic(err)
 	}
@@ -29,20 +28,7 @@ func CreateDomain(name string, vcpu int, memory_in_gb uint, image_uri string) {
 	conn.Close()
 }
 
-func listAllDomains() {
-	conn, err := libvirt.NewConnect("qemu+tcp://192.168.99.1:16509/system")
-	if err != nil {
-		panic(err)
-	}
-
-	domains, _ := conn.ListAllDomains(1)
-	// check for libvirt domain flags ConnectListAllDomainsFlags
-	fmt.Printf("Domains: %v\n", domains)
-
-	conn.Close()
-}
-
-func defineDomain(name string, vcpu int, memory_in_gb uint, image_uri string) (string, error) {
+func defineDomain(name string, vcpu int, memory_in_gb uint, image_uri string, user_data_uri string) (string, error) {
 	domcfg := &libvirtxml.Domain{}
 
 	bootOrder := uint(1)
@@ -87,7 +73,7 @@ func defineDomain(name string, vcpu int, memory_in_gb uint, image_uri string) (s
 					Device: "cdrom",
 					Source: &libvirtxml.DomainDiskSource{
 						File: &libvirtxml.DomainDiskSourceFile{
-							File: "/home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm2/user-data.img",
+							File: user_data_uri,
 						},
 					},
 					Target: &libvirtxml.DomainDiskTarget{

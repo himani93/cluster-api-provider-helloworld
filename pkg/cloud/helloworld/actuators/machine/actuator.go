@@ -42,7 +42,7 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 
 	spec := providerSpec.Spec
 	log.Printf("Create machine actuator called for context %v, cluster %v, machine %v", ctx, cluster, machine)
-	l.CreateDomain(spec.Name, spec.VCPU, uint(spec.MemoryInGB), spec.Image)
+	l.CreateDomain(spec.Name, spec.VCPU, uint(spec.MemoryInGB), spec.ImageURI, spec.UserDataURI)
 	return nil
 }
 

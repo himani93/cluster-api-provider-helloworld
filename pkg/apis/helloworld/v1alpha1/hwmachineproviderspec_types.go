@@ -16,7 +16,6 @@ limitations under the License.
 package v1alpha1
 
 import (
-	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -38,10 +37,10 @@ type HWMachineProviderSpecSpec struct {
 	MemoryInGB int `json:"memoryInGB"`
 
 	// Image URL to be provisioned
-	Image string `json:"image"`
+	ImageURI string `json:"imageURI"`
 
-	// UserData for Image
-	UserData *corev1.SecretReference `json:"userData,omitempty"`
+	// UserData URI of cloud-init image
+	UserDataURI string `json:"userDataURI"`
 }
 
 // HWMachineProviderSpecStatus defines the observed state of HWMachineProviderSpec
