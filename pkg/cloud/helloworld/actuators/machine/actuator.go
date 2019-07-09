@@ -57,7 +57,7 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 					Device: "disk",
 					Source: &libvirtxml.DomainDiskSource{
 						File: &libvirtxml.DomainDiskSourceFile{
-							File: "/home/whitebyte/libvirt-experiments/images/bionic-10.qcow2",
+							File: "/home/whitebyte/libvirt-experiments/images/kubernetes-control-plane.img",
 						},
 					},
 					Target: &libvirtxml.DomainDiskTarget{
@@ -75,7 +75,7 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 					Device: "cdrom",
 					Source: &libvirtxml.DomainDiskSource{
 						File: &libvirtxml.DomainDiskSourceFile{
-							File: "/home/whitebyte/libvirt-experiments/images/user-data.img",
+							File: "/home/whitebyte/libvirt-experiments/images/kube.iso",
 						},
 					},
 					Target: &libvirtxml.DomainDiskTarget{
