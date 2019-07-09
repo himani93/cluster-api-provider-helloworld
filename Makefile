@@ -1,7 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
-IMGVERSION=0.1.13
+IMGVERSION=0.1.18
 
 all: test manager
 
@@ -32,6 +32,7 @@ manifests:
 	echo "---" >> provider-components.yaml
 	kustomize build vendor/sigs.k8s.io/cluster-api/config/default/ >> provider-components.yaml
 	sed -i 's/cluster-api-provider-helloworld-controller-manager-metrics-service/cluster-api-provider-hw-controller-manager-metrics-service/g' provider-components.yaml
+	sed -i 's/himani93:cluster-api-provider-hw/himani93:cluster-api-provider-hw:${IMGVERSION}/g' provider-components.yaml
 
 # Run go fmt against code
 fmt:

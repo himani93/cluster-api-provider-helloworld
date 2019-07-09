@@ -33,18 +33,16 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 		return fmt.Errorf("Machine Provider Spec not passed")
 	}
 
-	log.Printf("ProviderSpecValue: %v", machine.Spec.ProviderSpec.Value)
-	log.Printf("ProviderSpecValueRaw: %v", machine.Spec.ProviderSpec.Value.Raw)
-
-	var config v1alpha1.HWMachineProviderSpec
-	err := yaml.UnmarshalStrict(machine.Spec.ProviderSpec.Value.Raw, &config)
+	var providerSpec v1alpha1.HWMachineProviderSpec
+	err := yaml.UnmarshalStrict(machine.Spec.ProviderSpec.Value.Raw, &providerSpec)
 	if err != nil {
-		log.Printf("Error unmarshalling machine provider spec: %v", err)
+		log.Printf("Error unmarshalling machine provider spec: %+v", err)
 		return err
 	}
 
+	spec := providerSpec.Spec
 	log.Printf("Create machine actuator called for context %v, cluster %v, machine %v", ctx, cluster, machine)
-	l.CreateDomain("Garcia", 8, 2, "/home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm2/base.qcow2")
+	l.CreateDomain(spec.Name, spec.VCPU, uint(spec.MemoryInGB), spec.Image)
 	return nil
 }
 

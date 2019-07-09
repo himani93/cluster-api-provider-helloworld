@@ -2,3 +2,13 @@ apiVersion: "cluster.k8s.io/v1alpha1"
 kind: Machine
 metadata:
   name:  my-new-machine
+spec:
+  providerSpec:
+    value:
+      apiVersion: "helloworld.cluster.k8s.io/v1alpha1"
+      kind: "HWMachineProviderSpec"
+      spec:
+        name: Joanna
+        vcpu: 2
+        memoryInGB: 2
+        image: /home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm3/base.qcow2
