@@ -1,7 +1,7 @@
 
 # Image URL to use all building/pushing image targets
 IMG ?= controller:latest
-IMGVERSION=0.1.9
+IMGVERSION=0.1.13
 
 all: test manager
 
@@ -50,13 +50,13 @@ endif
 
 # Build the docker image
 docker-build: test
-	docker build . -t ${IMG}:${IMGVERSION}
+	docker build . -t himani93/cluster-api-provider-hw:${IMGVERSION}
 	@echo "updating kustomize image patch file for manager resource"
-	sed -i'' -e 's@image: .*@image: '"${IMG}"'@' ./config/default/manager_image_patch.yaml
+	sed -i'' -e 's@image: .*@image: '"himani93/cluster-api-provider-hw"'@' ./config/default/manager_image_patch.yaml
 
 # Push the docker image
 docker-push:
-	docker push ${IMG}:${IMGVERSION}
+	docker push himani93/cluster-api-provider-hw:${IMGVERSION}
 
 # Build and push docker image
 magic:

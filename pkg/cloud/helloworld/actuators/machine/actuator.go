@@ -2,11 +2,9 @@ package machine
 
 import (
 	"context"
-	"fmt"
 	"log"
 
-	libvirt "github.com/libvirt/libvirt-go"
-	libvirtxml "github.com/libvirt/libvirt-go-xml"
+	l "sigs.k8s.io/cluster-api-provider-helloworld/pkg/cloud/libvirt"
 	clusterv1 "sigs.k8s.io/cluster-api/pkg/apis/cluster/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 )
@@ -27,108 +25,23 @@ type Actuator struct {
 }
 
 func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machine *clusterv1.Machine) error {
-	log.Printf("Create machine actuator called for context %v, cluster %v, machine %v", ctx, cluster, machine)
-	domcfg := &libvirtxml.Domain{}
-	xmldoc, err := domcfg.Marshal()
-	if err != nil {
-		panic(err)
+	if machine.Spec.ProviderSpec.Value == nil {
+		log.Printf("Machine Provider Spec not passed")
+		return fmt.Errorf("Machine Provider Spec not passed")
 	}
-	fmt.Printf("XML: %s\n", xmldoc)
-	bootOrder := uint(1)
-	domcfg = &libvirtxml.Domain{
-		Type: "qemu",
-		Name: "Eddie10",
-		Memory: &libvirtxml.DomainMemory{
-			Value: 4,
-			Unit:  "GB",
-		},
-		VCPU: &libvirtxml.DomainVCPU{
-			Value: 2,
-		},
-		OS: &libvirtxml.DomainOS{
-			Type: &libvirtxml.DomainOSType{
-				Type: "hvm",
-			},
-		},
-		Devices: &libvirtxml.DomainDeviceList{
-			Emulator: "/usr/bin/kvm-spice",
-			Disks: []libvirtxml.DomainDisk{
-				libvirtxml.DomainDisk{
-					Device: "disk",
-					Source: &libvirtxml.DomainDiskSource{
-						File: &libvirtxml.DomainDiskSourceFile{
-							File: "/home/whitebyte/libvirt-experiments/images/kubernetes-control-plane.img",
-						},
-					},
-					Target: &libvirtxml.DomainDiskTarget{
-						Dev: "hda",
-					},
-					Boot: &libvirtxml.DomainDeviceBoot{
-						Order: bootOrder,
-					},
-					Driver: &libvirtxml.DomainDiskDriver{
-						Name: "qemu",
-						Type: "qcow2",
-					},
-				},
-				libvirtxml.DomainDisk{
-					Device: "cdrom",
-					Source: &libvirtxml.DomainDiskSource{
-						File: &libvirtxml.DomainDiskSourceFile{
-							File: "/home/whitebyte/libvirt-experiments/images/kube.iso",
-						},
-					},
-					Target: &libvirtxml.DomainDiskTarget{
-						Dev: "hdb",
-					},
-				},
-			},
-			Serials: []libvirtxml.DomainSerial{
-				libvirtxml.DomainSerial{
-					Protocol: &libvirtxml.DomainChardevProtocol{
-						Type: "serial",
-					},
-					Target: &libvirtxml.DomainSerialTarget{
-						Port: new(uint),
-					},
-				},
-			},
-			Consoles: []libvirtxml.DomainConsole{
-				libvirtxml.DomainConsole{
-					Target: &libvirtxml.DomainConsoleTarget{
-						Type: "serial",
-						Port: new(uint),
-					},
-				},
-				libvirtxml.DomainConsole{
-					Target: &libvirtxml.DomainConsoleTarget{
-						Type: "virtio",
-					},
-				},
-			},
-			Graphics: []libvirtxml.DomainGraphic{
-				libvirtxml.DomainGraphic{
-					Spice: &libvirtxml.DomainGraphicSpice{
-						AutoPort: "yes",
-					},
-				},
-			},
-		},
-	}
-	xmldoc, err = domcfg.Marshal()
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("XML: %s", xmldoc)
 
-	conn, err := libvirt.NewConnect("qemu+tcp://192.168.99.1:16509/system")
+	log.Printf("ProviderSpecValue: %v", machine.Spec.ProviderSpec.Value)
+	log.Printf("ProviderSpecValueRaw: %v", machine.Spec.ProviderSpec.Value.Raw)
+
+	var config v1alpha1.HWMachineProviderSpec
+	err = yaml.UnmarshalStrict(machine.Spec.ProviderSpec.Value.Raw, &config)
 	if err != nil {
-		panic(err)
+		log.Printf("Error unmarshalling machine provider spec: %v", err)
+		return err
 	}
-	_, err = conn.DomainCreateXML(xmldoc, 0)
-	if err != nil {
-		panic(err)
-	}
+
+	log.Printf("Create machine actuator called for context %v, cluster %v, machine %v", ctx, cluster, machine)
+	l.CreateDomain("Garcia", 8, 2, "/home/carbon/dev/go-projects/src/github.com/himani93/libvirt-go-examples/images/vm-images/vm2/base.qcow2")
 	return nil
 }
 

@@ -223,7 +223,7 @@ spec:
               fieldPath: metadata.namespace
         - name: SECRET_NAME
           value: cluster-api-provider-helloworld-webhook-server-secret
-        image: himani93/cluster-api-provider-libvirt:0.1.9
+        image: himani93/cluster-api-provider-hw
         imagePullPolicy: Always
         name: manager
         ports:

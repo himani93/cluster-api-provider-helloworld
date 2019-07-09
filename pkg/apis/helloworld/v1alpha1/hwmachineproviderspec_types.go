@@ -29,7 +29,10 @@ type HWMachineProviderSpecSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Image URL to be provisioned
-	Image string `json:"image"`
+	Name       string `json:"name"`
+	VCPU       int    `json:"vcpu"`
+	MemoryInGB uint   `json:"memoryInGB"`
+	Image      string `json:"image"`
 	// UserData for Image
 	UserData *corev1.SecretReference `json:"userData,omitempty"`
 }
