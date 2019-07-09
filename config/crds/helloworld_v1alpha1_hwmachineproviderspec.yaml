@@ -31,10 +31,24 @@ spec:
             image:
               description: Image URL to be provisioned
               type: string
+            memoryInGB:
+              description: Amount of RAM in GBs
+              format: int64
+              type: integer
+            name:
+              description: Name of the machine
+              type: string
             userData:
               description: UserData for Image
               type: object
+            vcpu:
+              description: Number of virtual CPU
+              format: int64
+              type: integer
           required:
+          - name
+          - vcpu
+          - memoryInGB
           - image
           type: object
         status:

@@ -28,11 +28,18 @@ type HWMachineProviderSpecSpec struct {
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
+	// Name of the machine
+	Name string `json:"name"`
+
+	// Number of virtual CPU
+	VCPU int `json:"vcpu"`
+
+	// Amount of RAM in GBs
+	MemoryInGB int `json:"memoryInGB"`
+
 	// Image URL to be provisioned
-	Name       string `json:"name"`
-	VCPU       int    `json:"vcpu"`
-	MemoryInGB uint   `json:"memoryInGB"`
-	Image      string `json:"image"`
+	Image string `json:"image"`
+
 	// UserData for Image
 	UserData *corev1.SecretReference `json:"userData,omitempty"`
 }

@@ -2,11 +2,14 @@ package machine
 
 import (
 	"context"
+	"fmt"
 	"log"
 
+	"sigs.k8s.io/cluster-api-provider-helloworld/pkg/apis/helloworld/v1alpha1"
 	l "sigs.k8s.io/cluster-api-provider-helloworld/pkg/cloud/libvirt"
 	clusterv1 "sigs.k8s.io/cluster-api/pkg/apis/cluster/v1alpha1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/yaml"
 )
 
 const (
@@ -34,7 +37,7 @@ func (a *Actuator) Create(ctx context.Context, cluster *clusterv1.Cluster, machi
 	log.Printf("ProviderSpecValueRaw: %v", machine.Spec.ProviderSpec.Value.Raw)
 
 	var config v1alpha1.HWMachineProviderSpec
-	err = yaml.UnmarshalStrict(machine.Spec.ProviderSpec.Value.Raw, &config)
+	err := yaml.UnmarshalStrict(machine.Spec.ProviderSpec.Value.Raw, &config)
 	if err != nil {
 		log.Printf("Error unmarshalling machine provider spec: %v", err)
 		return err
